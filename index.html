@@ -1606,6 +1606,291 @@ window.addEventListener(
 );
 
 </script>
+ 
+<!-- MATCHAI + SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+/* =========================================================
+   CONFIGURACIÓN SUPABASE
+   ========================================================= */
+
+const SUPABASE_URL = "PEGÁ_ACÁ_TU_PROJECT_URL";
+const SUPABASE_PUBLISHABLE_KEY = "PEGÁ_ACÁ_TU_PUBLISHABLE_KEY";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+
+/* =========================================================
+   AGREGAR DATOS DE CONTACTO A LOS FORMULARIOS
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  // ---------- TRABAJADOR ----------
+  const workerSkills = document.getElementById("workerSkills");
+
+  if (workerSkills) {
+    const workerForm = workerSkills.closest("form");
+
+    if (workerForm && !document.getElementById("workerName")) {
+
+      const box = document.createElement("div");
+
+      box.innerHTML = `
+        <label>Nombre completo</label>
+        <input
+          id="workerName"
+          type="text"
+          placeholder="Ej: Agustín Buzzi"
+          required
+        >
+
+        <label>Email</label>
+        <input
+          id="workerEmail"
+          type="email"
+          placeholder="Ej: nombre@email.com"
+          required
+        >
+      `;
+
+      workerForm.insertBefore(box, workerForm.firstChild);
+    }
+  }
+
+
+  // ---------- EMPRESA ----------
+  const companyNeed = document.getElementById("companyNeed");
+
+  if (companyNeed) {
+    const companyForm = companyNeed.closest("form");
+
+    if (companyForm && !document.getElementById("companyName")) {
+
+      const box = document.createElement("div");
+
+      box.innerHTML = `
+        <label>Nombre de la empresa</label>
+        <input
+          id="companyName"
+          type="text"
+          placeholder="Ej: Empresa Argentina"
+          required
+        >
+
+        <label>Email de contacto</label>
+        <input
+          id="companyEmail"
+          type="email"
+          placeholder="Ej: empresa@email.com"
+          required
+        >
+      `;
+
+      companyForm.insertBefore(box, companyForm.firstChild);
+    }
+  }
+
+});
+
+
+/* =========================================================
+   GUARDAR TRABAJADOR EN SUPABASE
+   ========================================================= */
+
+const originalAnalyzeWorker = window.analyzeWorker;
+
+window.analyzeWorker = async function () {
+
+  const name = document.getElementById("workerName")?.value.trim();
+  const email = document.getElementById("workerEmail")?.value.trim();
+
+  const skills = document.getElementById("workerSkills")?.value.trim();
+  const experience = document.getElementById("workerExperience")?.value.trim();
+  const desired = document.getElementById("workerDesired")?.value.trim();
+  const salaryText = document.getElementById("workerSalary")?.value.trim();
+  const mode = document.getElementById("workerMode")?.value || "";
+  const languages = document.getElementById("workerLanguages")?.value.trim() || "";
+  const hours = document.getElementById("workerHours")?.value.trim() || "";
+  const avoid = document.getElementById("workerAvoid")?.value.trim() || "";
+
+  if (!name || !email) {
+    alert("Completá tu nombre y email.");
+    return;
+  }
+
+  if (!skills || !experience || !desired) {
+    alert("Completá los campos obligatorios del perfil.");
+    return;
+  }
+
+  const salaryNumbers = (salaryText || "")
+    .match(/\d+(?:[.,]\d+)?/g) || [];
+
+  const salary =
+    salaryNumbers.length > 0
+      ? Number(salaryNumbers[0].replace(",", "."))
+      : null;
+
+  const bio = [
+    `Habilidades: ${skills}`,
+    languages ? `Idiomas: ${languages}` : "",
+    hours ? `Disponibilidad: ${hours}` : "",
+    avoid ? `Prefiere evitar: ${avoid}` : ""
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  const profileId = crypto.randomUUID();
+
+  const { error } = await supabaseClient
+    .from("profiles")
+    .insert({
+      id: profileId,
+      full_name: name,
+      email: email,
+      bio: bio,
+      experience: experience,
+      desired_job: desired,
+      desired_salary: salary,
+      remote_preference: mode
+    });
+
+  if (error) {
+    console.error("Error guardando trabajador:", error);
+    alert("El perfil se guardó en MatchAI, pero todavía no pudo guardarse en la base de datos.");
+  } else {
+    console.log("✅ Trabajador guardado en Supabase:", profileId);
+  }
+
+  // Mantener el funcionamiento original de MatchAI
+  if (typeof originalAnalyzeWorker === "function") {
+    originalAnalyzeWorker();
+  }
+};
+
+
+/* =========================================================
+   GUARDAR EMPRESA + PUESTO EN SUPABASE
+   ========================================================= */
+
+const originalAnalyzeCompany = window.analyzeCompany;
+
+window.analyzeCompany = async function () {
+
+  const companyName =
+    document.getElementById("companyName")?.value.trim();
+
+  const companyEmail =
+    document.getElementById("companyEmail")?.value.trim();
+
+  const need =
+    document.getElementById("companyNeed")?.value.trim();
+
+  const skills =
+    document.getElementById("companySkills")?.value.trim() || "";
+
+  const salaryText =
+    document.getElementById("companySalary")?.value.trim() || "";
+
+  const hours =
+    document.getElementById("companyHours")?.value.trim() || "";
+
+  const mode =
+    document.getElementById("companyMode")?.value || "";
+
+  if (!companyName || !companyEmail) {
+    alert("Completá el nombre de la empresa y el email.");
+    return;
+  }
+
+  if (!need) {
+    alert("Completá qué necesita contratar la empresa.");
+    return;
+  }
+
+  const companyId = crypto.randomUUID();
+  const jobId = crypto.randomUUID();
+
+  const salaryNumbers =
+    salaryText.match(/\d+(?:[.,]\d+)?/g) || [];
+
+  const salaryValues = salaryNumbers.map(
+    n => Number(n.replace(",", "."))
+  );
+
+  const salaryMin =
+    salaryValues.length > 0 ? salaryValues[0] : null;
+
+  const salaryMax =
+    salaryValues.length > 1
+      ? salaryValues[1]
+      : salaryMin;
+
+  const skillsArray = skills
+    ? skills
+        .split(",")
+        .map(s => s.trim())
+        .filter(Boolean)
+    : null;
+
+
+  // Crear empresa
+  const { error: companyError } = await supabaseClient
+    .from("companies")
+    .insert({
+      id: companyId,
+      name: companyName,
+      description: need,
+      contact_email: companyEmail
+    });
+
+
+  if (companyError) {
+    console.error("Error guardando empresa:", companyError);
+    alert("El aviso se guardó en MatchAI, pero todavía no pudo guardarse en la base de datos.");
+
+    if (typeof originalAnalyzeCompany === "function") {
+      originalAnalyzeCompany();
+    }
+
+    return;
+  }
+
+
+  // Crear puesto
+  const { error: jobError } = await supabaseClient
+    .from("jobs")
+    .insert({
+      id: jobId,
+      company_id: companyId,
+      title: need,
+      description: need,
+      skills: skillsArray,
+      salary_min: salaryMin,
+      salary_max: salaryMax,
+      employment_type: `${hours} ${mode}`.trim()
+    });
+
+
+  if (jobError) {
+    console.error("Error guardando puesto:", jobError);
+    alert("La empresa se guardó, pero hubo un problema guardando el puesto.");
+  } else {
+    console.log("✅ Empresa y puesto guardados en Supabase:", companyId, jobId);
+  }
+
+
+  // Mantener el funcionamiento original
+  if (typeof originalAnalyzeCompany === "function") {
+    originalAnalyzeCompany();
+  }
+
+};
+</script>
 </body>
 </html>
