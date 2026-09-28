@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MatchAI — El trabajo correcto. La persona correcta.</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #08090d;
+      color: white;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1150px;
+      margin: auto;
+      padding: 25px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .logo span {
+      color: #7c5cff;
+    }
+
+    .badge {
+      background: #15131f;
+      border: 1px solid #282238;
+      padding: 8px 14px;
+      border-radius: 30px;
+      font-size: 13px;
+      color: #b9adff;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 100px 20px 70px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 8px 15px;
+      border-radius: 30px;
+      background: #15131f;
+      border: 1px solid #302653;
+      color: #b9adff;
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    h1 {
+      font-size: clamp(45px, 7vw, 82px);
+      line-height: 0.98;
+      letter-spacing: -4px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 span {
+      color: #8b6cff;
+    }
+
+    .subtitle {
+      max-width: 650px;
+      margin: 30px auto;
+      color: #a7a9b4;
+      font-size: 19px;
+      line-height: 1.6;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 35px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      padding: 17px 28px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      transition: 0.2s;
+    }
+
+    .primary {
+      background: #7c5cff;
+      color: white;
+    }
+
+    .secondary {
+      background: #15161c;
+      color: white;
+      border: 1px solid #30323c;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 50px;
+    }
+
+    .card {
+      background: #111217;
+      border: 1px solid #252731;
+      border-radius: 18px;
+      padding: 28px;
+      text-align: left;
+    }
+
+    .icon {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      font-size: 19px;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: #90939f;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .match {
+      margin: 70px auto;
+      max-width: 850px;
+      background: linear-gradient(135deg, #12111a, #171325);
+      border: 1px solid #302653;
+      border-radius: 25px;
+      padding: 35px;
+      text-align: center;
+    }
+
+    .match h2 {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .match p {
+      color: #999ba8;
+      line-height: 1.6;
+    }
+
+    .match-score {
+      font-size: 55px;
+      font-weight: 800;
+      color: #8b6cff;
+      margin: 20px;
+    }
+
+    footer {
+      border-top: 1px solid #202129;
+      padding: 30px 0;
+      color: #676a76;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    @media (max-width: 750px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 70px;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <nav>
+      <div class="logo">Match<span>AI</span></div>
+      <div class="badge">🤖 IA laboral</div>
+    </nav>
+
+    <section class="hero">
+
+      <div class="tag">
+        El futuro de la búsqueda laboral
+      </div>
+
+      <h1>
+        Encontrá el trabajo correcto.<br>
+        <span>Encontrá la persona correcta.</span>
+      </h1>
+
+      <p class="subtitle">
+        MatchAI utiliza inteligencia artificial para conectar personas
+        y empresas según habilidades, necesidades, experiencia,
+        disponibilidad y objetivos.
+      </p>
+
+      <div class="buttons">
+
+        <button class="primary" onclick="trabajador()">
+          👨‍💻 Busco trabajo
+        </button>
+
+        <button class="secondary" onclick="empresa()">
+          🏢 Busco empleados
+        </button>
+
+      </div>
+
+    </section>
+
+    <section class="cards">
+
+      <div class="card">
+        <div class="icon">🧠</div>
+        <h3>La IA entiende lo que buscás</h3>
+        <p>
+          No necesitás saber qué puesto buscar.
+          Contale a la IA qué sabés hacer, qué querés
+          y cuáles son tus condiciones.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🎯</div>
+        <h3>Matching inteligente</h3>
+        <p>
+          Comparamos habilidades, experiencia, salario,
+          horarios, ubicación y preferencias para encontrar
+          coincidencias reales.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🤝</div>
+        <h3>Conectamos las dos partes</h3>
+        <p>
+          La empresa encuentra talento y la persona
+          encuentra oportunidades sin perder horas
+          buscando entre cientos de opciones.
+        </p>
+      </div>
+
+    </section>
+
+    <section class="match">
+
+      <h2>Un ejemplo de Match</h2>
+
+      <p>
+        La IA analiza la información de ambas partes
+        y explica por qué existe compatibilidad.
+      </p>
+
+      <div class="match-score">94%</div>
+
+      <p>
+        🟢 Experiencia compatible &nbsp; · &nbsp;
+        🟢 Horario compatible &nbsp; · &nbsp;
+        🟢 Habilidades compatibles
+      </p>
+
+    </section>
+
+    <footer>
+      MatchAI © 2026 — Inteligencia artificial para conectar talento y oportunidades.
+    </footer>
+
+  </div>
+
+  <script>
+
+    function trabajador() {
+      alert(
+        "👨‍💻 PERFIL DE TRABAJADOR\n\n" +
+        "Próximamente vas a poder contarle a nuestra IA:\n\n" +
+        "• Qué sabés hacer\n" +
+        "• Qué experiencia tenés\n" +
+        "• Cuánto querés ganar\n" +
+        "• Qué horarios tenés\n" +
+        "• Qué tipo de trabajo buscás\n\n" +
+        "Y MatchAI buscará oportunidades compatibles."
+      );
+    }
+
+    function empresa() {
+      alert(
+        "🏢 PERFIL DE EMPRESA\n\n" +
+        "Próximamente vas a poder decirle a nuestra IA:\n\n" +
+        "• Qué persona necesitás\n" +
+        "• Qué habilidades debe tener\n" +
+        "• Cuánto querés pagar\n" +
+        "• Horarios\n" +
+        "• Modalidad de trabajo\n\n" +
+        "Y MatchAI encontrará candidatos compatibles."
+      );
+    }
+
+  </script>
+
+</body>
+</html>
