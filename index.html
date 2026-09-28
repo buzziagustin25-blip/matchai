@@ -1,337 +1,1611 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>MatchAI — El trabajo correcto. La persona correcta.</title>
+<title>MatchAI | Encontrá tu próximo match laboral</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,Arial,Helvetica,sans-serif;
+    background:#07080c;
+    color:#ffffff;
+    min-height:100vh;
+}
+
+button,
+input,
+textarea,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.container{
+    width:min(1150px,92%);
+    margin:auto;
+}
+
+/* NAV */
+
+.nav{
+    height:82px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #20222c;
+}
+
+.logo{
+    font-size:27px;
+    font-weight:900;
+    letter-spacing:-1px;
+}
+
+.logo span{
+    color:#8b5cf6;
+}
+
+.nav-badge{
+    border:1px solid #30254e;
+    background:#120f1d;
+    color:#bda8ff;
+    border-radius:30px;
+    padding:9px 15px;
+    font-size:13px;
+}
+
+/* HERO */
+
+.hero{
+    text-align:center;
+    padding:100px 10px 75px;
+}
+
+.badge{
+    display:inline-block;
+    padding:9px 16px;
+    border:1px solid #332755;
+    background:#120f1d;
+    border-radius:30px;
+    color:#bda8ff;
+    font-size:14px;
+    margin-bottom:25px;
+}
+
+.hero h1{
+    max-width:900px;
+    margin:auto;
+    font-size:clamp(48px,7vw,82px);
+    line-height:.98;
+    letter-spacing:-4px;
+}
+
+.gradient{
+    background:linear-gradient(90deg,#8b5cf6,#b48cff);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.hero-text{
+    max-width:680px;
+    margin:30px auto;
+    color:#9699a7;
+    font-size:18px;
+    line-height:1.65;
+}
+
+.hero-buttons{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-top:35px;
+}
+
+.btn{
+    border:0;
+    border-radius:12px;
+    padding:16px 25px;
+    font-weight:800;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.btn-primary{
+    background:#7c4dff;
+    color:white;
+}
+
+.btn-secondary{
+    background:#15171e;
+    color:white;
+    border:1px solid #333640;
+}
+
+/* FEATURES */
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-bottom:100px;
+}
+
+.feature{
+    padding:28px;
+    border:1px solid #252832;
+    border-radius:20px;
+    background:#101116;
+}
+
+.feature-icon{
+    font-size:31px;
+    margin-bottom:17px;
+}
+
+.feature h3{
+    margin-bottom:10px;
+}
+
+.feature p{
+    color:#858894;
+    line-height:1.6;
+    font-size:14px;
+}
+
+/* SCREENS */
+
+.screen{
+    display:none;
+    padding:55px 0 100px;
+}
+
+.screen.active{
+    display:block;
+}
+
+.back{
+    background:transparent;
+    color:#999daa;
+    border:1px solid #30323c;
+    padding:10px 16px;
+    border-radius:10px;
+    margin-bottom:30px;
+}
+
+.screen-title{
+    font-size:43px;
+    letter-spacing:-2px;
+    margin-bottom:10px;
+}
+
+.screen-subtitle{
+    color:#9295a1;
+    line-height:1.6;
+    max-width:720px;
+    margin-bottom:35px;
+}
+
+/* FORM */
+
+.form{
+    max-width:780px;
+    margin:auto;
+    padding:32px;
+    border:1px solid #292c36;
+    background:#111218;
+    border-radius:24px;
+}
+
+.field{
+    margin-bottom:23px;
+}
+
+.field label{
+    display:block;
+    font-weight:800;
+    margin-bottom:8px;
+}
+
+.field small{
+    display:block;
+    color:#737784;
+    margin-bottom:9px;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    padding:14px;
+    background:#090a0e;
+    border:1px solid #30333e;
+    border-radius:11px;
+    color:white;
+    outline:none;
+}
+
+textarea{
+    min-height:115px;
+    resize:vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color:#8158ff;
+}
+
+.full-btn{
+    width:100%;
+    margin-top:5px;
+    padding:17px;
+}
+
+/* LOADING */
+
+.loading{
+    display:none;
+    text-align:center;
+    padding:30px;
+    color:#aaa;
+}
+
+.loading.active{
+    display:block;
+}
+
+.spinner{
+    width:35px;
+    height:35px;
+    border:3px solid #292b36;
+    border-top-color:#8b5cf6;
+    border-radius:50%;
+    margin:0 auto 15px;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* RESULTS */
+
+.result{
+    display:none;
+    max-width:900px;
+    margin:30px auto;
+}
+
+.result.active{
+    display:block;
+}
+
+.result-header{
+    background:linear-gradient(135deg,#171326,#101116);
+    border:1px solid #382b5d;
+    border-radius:23px;
+    padding:35px;
+    text-align:center;
+    margin-bottom:18px;
+}
+
+.result-header .ai{
+    color:#bda8ff;
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.result-header h2{
+    font-size:31px;
+    margin-bottom:10px;
+}
+
+.result-header p{
+    color:#8f929f;
+    line-height:1.6;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.match-card{
+    background:#111218;
+    border:1px solid #292c36;
+    border-radius:18px;
+    padding:24px;
+}
+
+.match-card-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:13px;
+}
+
+.match-card h3{
+    font-size:17px;
+}
+
+.score{
+    color:#9b76ff;
+    font-size:21px;
+    font-weight:900;
+}
+
+.match-card p{
+    color:#858894;
+    font-size:14px;
+    line-height:1.6;
+}
+
+.tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-top:14px;
+}
+
+.tag{
+    background:#1b1827;
+    border:1px solid #342b4c;
+    color:#bba9e9;
+    padding:6px 9px;
+    border-radius:20px;
+    font-size:11px;
+}
+
+.restart{
+    margin-top:20px;
+    width:100%;
+}
+
+/* HOW IT WORKS */
+
+.how{
+    padding:20px 0 100px;
+}
+
+.how-title{
+    text-align:center;
+    font-size:35px;
+    margin-bottom:35px;
+}
+
+.steps{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.step{
+    background:#101116;
+    border:1px solid #252832;
+    border-radius:18px;
+    padding:25px;
+}
+
+.step-number{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#7c4dff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+    margin-bottom:15px;
+}
+
+.step p{
+    color:#858894;
+    line-height:1.6;
+    font-size:14px;
+}
+
+/* FOOTER */
+
+footer{
+    border-top:1px solid #20222b;
+    padding:30px 0;
+    text-align:center;
+    color:#656875;
+    font-size:13px;
+}
+
+/* MOBILE */
+
+@media(max-width:750px){
+
+    .nav{
+        height:70px;
     }
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #08090d;
-      color: white;
-      min-height: 100vh;
+    .nav-badge{
+        display:none;
     }
 
-    .container {
-      max-width: 1150px;
-      margin: auto;
-      padding: 25px;
+    .hero{
+        padding:70px 5px 60px;
     }
 
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 0;
+    .hero h1{
+        font-size:49px;
+        letter-spacing:-2.5px;
     }
 
-    .logo {
-      font-size: 25px;
-      font-weight: 800;
-      letter-spacing: -1px;
+    .hero-text{
+        font-size:16px;
     }
 
-    .logo span {
-      color: #7c5cff;
+    .features,
+    .steps,
+    .cards{
+        grid-template-columns:1fr;
     }
 
-    .badge {
-      background: #15131f;
-      border: 1px solid #282238;
-      padding: 8px 14px;
-      border-radius: 30px;
-      font-size: 13px;
-      color: #b9adff;
+    .screen-title{
+        font-size:34px;
     }
 
-    .hero {
-      text-align: center;
-      padding: 100px 20px 70px;
+    .form{
+        padding:22px;
     }
 
-    .tag {
-      display: inline-block;
-      padding: 8px 15px;
-      border-radius: 30px;
-      background: #15131f;
-      border: 1px solid #302653;
-      color: #b9adff;
-      font-size: 14px;
-      margin-bottom: 25px;
-    }
+}
 
-    h1 {
-      font-size: clamp(45px, 7vw, 82px);
-      line-height: 0.98;
-      letter-spacing: -4px;
-      max-width: 900px;
-      margin: auto;
-    }
-
-    h1 span {
-      color: #8b6cff;
-    }
-
-    .subtitle {
-      max-width: 650px;
-      margin: 30px auto;
-      color: #a7a9b4;
-      font-size: 19px;
-      line-height: 1.6;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-      margin-top: 35px;
-    }
-
-    button {
-      border: none;
-      cursor: pointer;
-      padding: 17px 28px;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 700;
-      transition: 0.2s;
-    }
-
-    .primary {
-      background: #7c5cff;
-      color: white;
-    }
-
-    .secondary {
-      background: #15161c;
-      color: white;
-      border: 1px solid #30323c;
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      opacity: 0.9;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      margin-top: 50px;
-    }
-
-    .card {
-      background: #111217;
-      border: 1px solid #252731;
-      border-radius: 18px;
-      padding: 28px;
-      text-align: left;
-    }
-
-    .icon {
-      font-size: 30px;
-      margin-bottom: 20px;
-    }
-
-    .card h3 {
-      font-size: 19px;
-      margin-bottom: 12px;
-    }
-
-    .card p {
-      color: #90939f;
-      line-height: 1.6;
-      font-size: 14px;
-    }
-
-    .match {
-      margin: 70px auto;
-      max-width: 850px;
-      background: linear-gradient(135deg, #12111a, #171325);
-      border: 1px solid #302653;
-      border-radius: 25px;
-      padding: 35px;
-      text-align: center;
-    }
-
-    .match h2 {
-      font-size: 32px;
-      margin-bottom: 12px;
-    }
-
-    .match p {
-      color: #999ba8;
-      line-height: 1.6;
-    }
-
-    .match-score {
-      font-size: 55px;
-      font-weight: 800;
-      color: #8b6cff;
-      margin: 20px;
-    }
-
-    footer {
-      border-top: 1px solid #202129;
-      padding: 30px 0;
-      color: #676a76;
-      text-align: center;
-      font-size: 13px;
-    }
-
-    @media (max-width: 750px) {
-      .cards {
-        grid-template-columns: 1fr;
-      }
-
-      .hero {
-        padding-top: 70px;
-      }
-
-      h1 {
-        letter-spacing: -2px;
-      }
-    }
-  </style>
+</style>
 </head>
+
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <nav>
-      <div class="logo">Match<span>AI</span></div>
-      <div class="badge">🤖 IA laboral</div>
-    </nav>
+<!-- NAV -->
 
-    <section class="hero">
+<nav class="nav">
 
-      <div class="tag">
-        El futuro de la búsqueda laboral
-      </div>
+    <div class="logo">
+        Match<span>AI</span>
+    </div>
 
-      <h1>
-        Encontrá el trabajo correcto.<br>
-        <span>Encontrá la persona correcta.</span>
-      </h1>
+    <div class="nav-badge">
+        🤖 Tu agente laboral
+    </div>
 
-      <p class="subtitle">
-        MatchAI utiliza inteligencia artificial para conectar personas
-        y empresas según habilidades, necesidades, experiencia,
-        disponibilidad y objetivos.
-      </p>
+</nav>
 
-      <div class="buttons">
 
-        <button class="primary" onclick="trabajador()">
-          👨‍💻 Busco trabajo
+<!-- HOME -->
+
+<section id="home" class="screen active">
+
+    <div class="hero">
+
+        <div class="badge">
+            ✨ Inteligencia artificial para conectar talento
+        </div>
+
+        <h1>
+            Encontrá el trabajo correcto.<br>
+            <span class="gradient">
+                Encontrá la persona correcta.
+            </span>
+        </h1>
+
+        <p class="hero-text">
+            MatchAI entiende lo que buscás, analiza habilidades,
+            experiencia y preferencias, y encuentra compatibilidades
+            entre personas y empresas.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button
+                class="btn btn-primary"
+                onclick="showScreen('worker')">
+
+                👨‍💻 Busco trabajo
+
+            </button>
+
+
+            <button
+                class="btn btn-secondary"
+                onclick="showScreen('company')">
+
+                🏢 Busco empleados
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="features">
+
+        <div class="feature">
+
+            <div class="feature-icon">🧠</div>
+
+            <h3>
+                La IA te entiende
+            </h3>
+
+            <p>
+                No necesitás saber exactamente qué puesto buscar.
+                Contale a MatchAI qué sabés hacer.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">🎯</div>
+
+            <h3>
+                Matching inteligente
+            </h3>
+
+            <p>
+                Comparamos habilidades, experiencia,
+                salario, horarios y preferencias.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">🤝</div>
+
+            <h3>
+                Dos lados del mercado
+            </h3>
+
+            <p>
+                Una plataforma para personas que buscan trabajo
+                y empresas que buscan talento.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="how">
+
+        <h2 class="how-title">
+            ¿Cómo funciona?
+        </h2>
+
+        <div class="steps">
+
+            <div class="step">
+
+                <div class="step-number">
+                    1
+                </div>
+
+                <h3>
+                    Contanos qué necesitás
+                </h3>
+
+                <p>
+                    La persona cuenta qué sabe hacer.
+                    La empresa cuenta qué persona necesita.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    2
+                </div>
+
+                <h3>
+                    MatchAI analiza
+                </h3>
+
+                <p>
+                    El sistema convierte la información
+                    en un perfil laboral estructurado.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    3
+                </div>
+
+                <h3>
+                    Encontramos compatibilidades
+                </h3>
+
+                <p>
+                    El objetivo es conectar personas
+                    y empresas que realmente encajen.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- WORKER -->
+
+<section id="worker" class="screen">
+
+    <button
+        class="back"
+        onclick="showScreen('home')">
+
+        ← Volver
+
+    </button>
+
+
+    <h2 class="screen-title">
+        👨‍💻 Contale a MatchAI quién sos
+    </h2>
+
+    <p class="screen-subtitle">
+
+        No necesitás saber qué puesto buscar.
+        Contanos sobre vos y vamos a construir tu perfil laboral.
+
+    </p>
+
+
+    <div class="form">
+
+        <div class="field">
+
+            <label>
+                ¿Qué sabés hacer?
+            </label>
+
+            <small>
+                Podés incluir habilidades aunque no tengas título.
+            </small>
+
+            <textarea
+                id="workerSkills"
+                placeholder="Ej: ventas, electricidad, atención al cliente, computación...">
+            </textarea>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                ¿Qué experiencia tenés?
+            </label>
+
+            <textarea
+                id="workerExperience"
+                placeholder="Contanos qué trabajos hiciste y qué tareas realizabas.">
+            </textarea>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                ¿Qué trabajo te gustaría hacer?
+            </label>
+
+            <input
+                id="workerDesired"
+                placeholder="Ej: soporte técnico, ventas, atención al cliente...">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                ¿Cuánto querés ganar por mes?
+            </label>
+
+            <input
+                id="workerSalary"
+                placeholder="Ej: USD 1000">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                ¿Cuántas horas por semana?
+            </label>
+
+            <input
+                id="workerHours"
+                placeholder="Ej: 25">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Modalidad
+            </label>
+
+            <select id="workerMode">
+
+                <option value="Remoto">
+                    💻 Remoto
+                </option>
+
+                <option value="Presencial">
+                    🏢 Presencial
+                </option>
+
+                <option value="Ambos">
+                    🌎 Remoto o presencial
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Idiomas
+            </label>
+
+            <input
+                id="workerLanguages"
+                placeholder="Ej: Español nativo, Inglés B2">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                ¿Qué NO querés hacer?
+            </label>
+
+            <textarea
+                id="workerAvoid"
+                placeholder="Ej: llamadas, horarios nocturnos, ventas puerta a puerta...">
+            </textarea>
+
+        </div>
+
+
+        <button
+            class="btn btn-primary full-btn"
+            onclick="analyzeWorker()">
+
+            🤖 ANALIZAR MI PERFIL
+
         </button>
 
-        <button class="secondary" onclick="empresa()">
-          🏢 Busco empleados
+    </div>
+
+
+    <div
+        id="workerLoading"
+        class="loading">
+
+        <div class="spinner"></div>
+
+        MatchAI está analizando tu perfil...
+
+    </div>
+
+
+    <div
+        id="workerResult"
+        class="result">
+
+    </div>
+
+</section>
+
+
+<!-- COMPANY -->
+
+<section id="company" class="screen">
+
+    <button
+        class="back"
+        onclick="showScreen('home')">
+
+        ← Volver
+
+    </button>
+
+
+    <h2 class="screen-title">
+        🏢 Encontrá a la persona que necesitás
+    </h2>
+
+
+    <p class="screen-subtitle">
+
+        Describí la necesidad de tu empresa con tus propias palabras.
+        MatchAI transforma esa necesidad en una búsqueda.
+
+    </p>
+
+
+    <div class="form">
+
+        <div class="field">
+
+            <label>
+                ¿Qué persona necesitás?
+            </label>
+
+            <textarea
+                id="companyNeed"
+                placeholder="Ej: necesito alguien para atender clientes por chat y email...">
+            </textarea>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Habilidades necesarias
+            </label>
+
+            <textarea
+                id="companySkills"
+                placeholder="Ej: inglés, atención al cliente, Excel, ventas...">
+            </textarea>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Presupuesto mensual
+            </label>
+
+            <input
+                id="companySalary"
+                placeholder="Ej: USD 800 - 1200">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Horas semanales
+            </label>
+
+            <input
+                id="companyHours"
+                placeholder="Ej: 25">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Modalidad
+            </label>
+
+            <select id="companyMode">
+
+                <option>
+                    Remoto
+                </option>
+
+                <option>
+                    Presencial
+                </option>
+
+                <option>
+                    Híbrido
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            class="btn btn-primary full-btn"
+            onclick="analyzeCompany()">
+
+            🤖 ENCONTRAR TALENTO
+
         </button>
 
-      </div>
+    </div>
 
-    </section>
 
-    <section class="cards">
+    <div
+        id="companyLoading"
+        class="loading">
 
-      <div class="card">
-        <div class="icon">🧠</div>
-        <h3>La IA entiende lo que buscás</h3>
-        <p>
-          No necesitás saber qué puesto buscar.
-          Contale a la IA qué sabés hacer, qué querés
-          y cuáles son tus condiciones.
-        </p>
-      </div>
+        <div class="spinner"></div>
 
-      <div class="card">
-        <div class="icon">🎯</div>
-        <h3>Matching inteligente</h3>
-        <p>
-          Comparamos habilidades, experiencia, salario,
-          horarios, ubicación y preferencias para encontrar
-          coincidencias reales.
-        </p>
-      </div>
+        MatchAI está buscando compatibilidades...
 
-      <div class="card">
-        <div class="icon">🤝</div>
-        <h3>Conectamos las dos partes</h3>
-        <p>
-          La empresa encuentra talento y la persona
-          encuentra oportunidades sin perder horas
-          buscando entre cientos de opciones.
-        </p>
-      </div>
+    </div>
 
-    </section>
 
-    <section class="match">
+    <div
+        id="companyResult"
+        class="result">
 
-      <h2>Un ejemplo de Match</h2>
+    </div>
 
-      <p>
-        La IA analiza la información de ambas partes
-        y explica por qué existe compatibilidad.
-      </p>
+</section>
 
-      <div class="match-score">94%</div>
 
-      <p>
-        🟢 Experiencia compatible &nbsp; · &nbsp;
-        🟢 Horario compatible &nbsp; · &nbsp;
-        🟢 Habilidades compatibles
-      </p>
+<footer>
 
-    </section>
+    MatchAI © 2026 · Conectando personas y oportunidades.
 
-    <footer>
-      MatchAI © 2026 — Inteligencia artificial para conectar talento y oportunidades.
-    </footer>
+</footer>
 
-  </div>
+</div>
 
-  <script>
 
-    function trabajador() {
-      alert(
-        "👨‍💻 PERFIL DE TRABAJADOR\n\n" +
-        "Próximamente vas a poder contarle a nuestra IA:\n\n" +
-        "• Qué sabés hacer\n" +
-        "• Qué experiencia tenés\n" +
-        "• Cuánto querés ganar\n" +
-        "• Qué horarios tenés\n" +
-        "• Qué tipo de trabajo buscás\n\n" +
-        "Y MatchAI buscará oportunidades compatibles."
-      );
+<script>
+
+/* ============================
+   NAVEGACIÓN
+============================ */
+
+function showScreen(screenId){
+
+    document
+        .querySelectorAll(".screen")
+        .forEach(function(screen){
+
+            screen.classList.remove("active");
+
+        });
+
+    document
+        .getElementById(screenId)
+        .classList.add("active");
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+
+/* ============================
+   WORKER
+============================ */
+
+function analyzeWorker(){
+
+    const skills =
+        document.getElementById("workerSkills").value.trim();
+
+    const experience =
+        document.getElementById("workerExperience").value.trim();
+
+    const desired =
+        document.getElementById("workerDesired").value.trim();
+
+    const salary =
+        document.getElementById("workerSalary").value.trim();
+
+    const hours =
+        document.getElementById("workerHours").value.trim();
+
+    const mode =
+        document.getElementById("workerMode").value;
+
+    const languages =
+        document.getElementById("workerLanguages").value.trim();
+
+    const avoid =
+        document.getElementById("workerAvoid").value.trim();
+
+
+    if(!skills || !experience || !desired){
+
+        alert(
+            "Completá al menos tus habilidades, experiencia y trabajo deseado."
+        );
+
+        return;
     }
 
-    function empresa() {
-      alert(
-        "🏢 PERFIL DE EMPRESA\n\n" +
-        "Próximamente vas a poder decirle a nuestra IA:\n\n" +
-        "• Qué persona necesitás\n" +
-        "• Qué habilidades debe tener\n" +
-        "• Cuánto querés pagar\n" +
-        "• Horarios\n" +
-        "• Modalidad de trabajo\n\n" +
-        "Y MatchAI encontrará candidatos compatibles."
-      );
+
+    const profile = {
+
+        skills,
+        experience,
+        desired,
+        salary,
+        hours,
+        mode,
+        languages,
+        avoid,
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    localStorage.setItem(
+        "matchai_worker_profile",
+        JSON.stringify(profile)
+    );
+
+
+    const loading =
+        document.getElementById("workerLoading");
+
+    const result =
+        document.getElementById("workerResult");
+
+
+    loading.classList.add("active");
+
+    result.classList.remove("active");
+
+
+    setTimeout(function(){
+
+        loading.classList.remove("active");
+
+
+        result.innerHTML = `
+
+            <div class="result-header">
+
+                <div class="ai">
+                    🤖 MATCHAI ANALIZÓ TU PERFIL
+                </div>
+
+                <h2>
+                    Tu perfil laboral está listo.
+                </h2>
+
+                <p>
+                    Estas son algunas áreas laborales
+                    que podrían coincidir con tu perfil.
+                </p>
+
+            </div>
+
+
+            <div class="cards">
+
+                <div class="match-card">
+
+                    <div class="match-card-top">
+
+                        <h3>
+                            Customer Support
+                        </h3>
+
+                        <span class="score">
+                            94%
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Atención de clientes por chat,
+                        email y plataformas digitales.
+                    </p>
+
+                    <div class="tags">
+
+                        <span class="tag">
+                            Remoto
+                        </span>
+
+                        <span class="tag">
+                            Chat
+                        </span>
+
+                        <span class="tag">
+                            Email
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="match-card">
+
+                    <div class="match-card-top">
+
+                        <h3>
+                            Technical Support
+                        </h3>
+
+                        <span class="score">
+                            91%
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Soporte técnico y resolución
+                        de problemas de usuarios.
+                    </p>
+
+                    <div class="tags">
+
+                        <span class="tag">
+                            Tecnología
+                        </span>
+
+                        <span class="tag">
+                            Soporte
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="match-card">
+
+                    <div class="match-card-top">
+
+                        <h3>
+                            Operations Assistant
+                        </h3>
+
+                        <span class="score">
+                            86%
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Organización, seguimiento,
+                        gestión y soporte operativo.
+                    </p>
+
+                    <div class="tags">
+
+                        <span class="tag">
+                            Operaciones
+                        </span>
+
+                        <span class="tag">
+                            Remoto
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="match-card">
+
+                    <div class="match-card-top">
+
+                        <h3>
+                            Virtual Assistant
+                        </h3>
+
+                        <span class="score">
+                            81%
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Asistencia digital, administración
+                        y seguimiento de clientes.
+                    </p>
+
+                    <div class="tags">
+
+                        <span class="tag">
+                            Remoto
+                        </span>
+
+                        <span class="tag">
+                            Flexible
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="btn btn-secondary restart"
+                onclick="showScreen('home')">
+
+                ← Volver al inicio
+
+            </button>
+
+        `;
+
+
+        result.classList.add("active");
+
+        result.scrollIntoView({
+            behavior:"smooth"
+        });
+
+    },1200);
+
+}
+
+
+/* ============================
+   COMPANY
+============================ */
+
+function analyzeCompany(){
+
+    const need =
+        document.getElementById("companyNeed").value.trim();
+
+    const skills =
+        document.getElementById("companySkills").value.trim();
+
+    const salary =
+        document.getElementById("companySalary").value.trim();
+
+    const hours =
+        document.getElementById("companyHours").value.trim();
+
+    const mode =
+        document.getElementById("companyMode").value;
+
+
+    if(!need){
+
+        alert(
+            "Contanos primero qué persona necesitás."
+        );
+
+        return;
     }
 
-  </script>
+
+    const job = {
+
+        need,
+        skills,
+        salary,
+        hours,
+        mode,
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    localStorage.setItem(
+        "matchai_company_job",
+        JSON.stringify(job)
+    );
+
+
+    const loading =
+        document.getElementById("companyLoading");
+
+    const result =
+        document.getElementById("companyResult");
+
+
+    loading.classList.add("active");
+
+    result.classList.remove("active");
+
+
+    setTimeout(function(){
+
+        loading.classList.remove("active");
+
+
+        result.innerHTML = `
+
+            <div class="result-header">
+
+                <div class="ai">
+                    🤖 MATCHAI ANALIZÓ TU BÚSQUEDA
+                </div>
+
+                <h2>
+                    Búsqueda creada correctamente.
+                </h2>
+
+                <p>
+                    Estos serían ejemplos de candidatos
+                    compatibles con tu necesidad.
+                </p>
+
+            </div>
+
+
+            <div class="cards">
+
+                <div class="match-card">
+
+                    <div class="match-card-top">
+
+                        <h3>
+                            Candidato A
+                        </h3>
+
+                        <span class="score">
+                            96%
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Alta coincidencia de habilidades,
+                        experiencia y modalidad.
+                    </p>
+
+                    <div class="tags">
+
+                        <span class="tag">
+                            Experiencia
+                        </span>
+
+                        <span class="tag">
+                            Horario
+                        </span>
+
+                        <span class="tag">
+                            Habilidades
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="match-card">
+
+                    <div class="match-card-top">
+
+                        <h3>
+                            Candidato B
+                        </h3>
+
+                        <span class="score">
+                            91%
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Buen nivel de compatibilidad
+                        con posibilidad de capacitación.
+                    </p>
+
+                    <div class="tags">
+
+                        <span class="tag">
+                            Buen match
+                        </span>
+
+                        <span class="tag">
+                            Disponible
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="match-card">
+
+                    <div class="match-card-top">
+
+                        <h3>
+                            Candidato C
+                        </h3>
+
+                        <span class="score">
+                            87%
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Experiencia relacionada y
+                        habilidades transferibles.
+                    </p>
+
+                    <div class="tags">
+
+                        <span class="tag">
+                            Potencial
+                        </span>
+
+                        <span class="tag">
+                            Capacitación
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="match-card">
+
+                    <div class="match-card-top">
+
+                        <h3>
+                            Candidato D
+                        </h3>
+
+                        <span class="score">
+                            82%
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Coincidencia parcial con
+                        experiencia complementaria.
+                    </p>
+
+                    <div class="tags">
+
+                        <span class="tag">
+                            Compatible
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="btn btn-secondary restart"
+                onclick="showScreen('home')">
+
+                ← Volver al inicio
+
+            </button>
+
+        `;
+
+
+        result.classList.add("active");
+
+        result.scrollIntoView({
+            behavior:"smooth"
+        });
+
+    },1200);
+
+}
+
+
+/* ============================
+   RECUPERAR DATOS
+============================ */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        const savedWorker =
+            localStorage.getItem(
+                "matchai_worker_profile"
+            );
+
+        if(savedWorker){
+
+            try{
+
+                const data =
+                    JSON.parse(savedWorker);
+
+                document.getElementById(
+                    "workerSkills"
+                ).value = data.skills || "";
+
+                document.getElementById(
+                    "workerExperience"
+                ).value = data.experience || "";
+
+                document.getElementById(
+                    "workerDesired"
+                ).value = data.desired || "";
+
+                document.getElementById(
+                    "workerSalary"
+                ).value = data.salary || "";
+
+                document.getElementById(
+                    "workerHours"
+                ).value = data.hours || "";
+
+                document.getElementById(
+                    "workerLanguages"
+                ).value = data.languages || "";
+
+                document.getElementById(
+                    "workerAvoid"
+                ).value = data.avoid || "";
+
+            }catch(error){
+
+                console.log(
+                    "No se pudo recuperar el perfil."
+                );
+
+            }
+
+        }
+
+    }
+);
+
+</script>
 
 </body>
 </html>
